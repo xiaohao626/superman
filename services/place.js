@@ -66,8 +66,8 @@ const db = require("../config/db");
 
 module.exports = {
   selectPlaceList: () => {
-    return new Promise(resolve => {
-      let sql = `select * from combos`;
+    return new Promise((resolve) => {
+      let sql = `select * from placeList`;
       db.query(sql, (err, rows) => {
         if (err) {
           reject(err);
@@ -77,7 +77,7 @@ module.exports = {
     });
   },
   // 查询景点详情
-  selectPlaceDetail: number => {
+  selectPlaceDetail: (number) => {
     return new Promise((resolve, reject) => {
       try {
         sql = `select * from placeList where number = '${number}'`;
@@ -91,5 +91,5 @@ module.exports = {
         resolve(null);
       }
     });
-  }
+  },
 };

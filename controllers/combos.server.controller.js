@@ -10,10 +10,12 @@ module.exports = {
       for (let i in classifyRes) {
         let { key, title } = classifyRes[i];
         let item = (await services.getCombosWithClassifyList(key)) || [];
-        list.push({
-          title,
-          list: item
-        });
+        if (item && item.length) {
+          list.push({
+            title,
+            list: item,
+          });
+        }
       }
       res.send(list);
     } catch (e) {
@@ -42,5 +44,5 @@ module.exports = {
     } catch (e) {
       res.send(e);
     }
-  }
+  },
 };

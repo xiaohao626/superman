@@ -1,6 +1,16 @@
 const services = require("../services");
 
 module.exports = {
+  queryAllPlace: async (req, res) => {
+    try {
+      let result = [];
+
+      result = (await services.selectPlaceList()) || [];
+      res.send(result);
+    } catch (e) {
+      res.send(e);
+    }
+  },
   // 获取景点详细信息
   getPlaceDetail: async (req, res) => {
     try {
@@ -15,5 +25,5 @@ module.exports = {
     } catch (e) {
       res.send(e);
     }
-  }
+  },
 };
