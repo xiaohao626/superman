@@ -34,10 +34,10 @@ module.exports = {
   getCombosDetail: async (req, res) => {
     try {
       let result = {};
-      const { id, combosId } = req.query || {};
+      const { combosId } = req.query || {};
 
-      if (id) {
-        const detail = (await services.queryCombosDetail(id)) || [];
+      if (combosId) {
+        const detail = (await services.queryCombosDetail(combosId)) || [];
         result.combosDetail = detail[0] || null;
       }
 

@@ -6,7 +6,7 @@ module.exports = {
    * https://www.yuque.com/zhanghao-hr3kc/qg1pgz/tec7hg#DlgB1
    * @param {String} classify 分类key值
    */
-  getCombosWithClassifyList: classify => {
+  getCombosWithClassifyList: (classify) => {
     return new Promise((resolve, reject) => {
       try {
         sql = `select * from combos where classify = '${classify}'`;
@@ -22,8 +22,8 @@ module.exports = {
     });
   },
   // 模糊搜索套餐
-  fuzzySearchCombos: async value => {
-    return new Promise(resolve => {
+  fuzzySearchCombos: async (value) => {
+    return new Promise((resolve) => {
       try {
         let sql = `select * from combos where title like '%${value}%'`;
 
@@ -37,10 +37,10 @@ module.exports = {
     });
   },
   // 查询套餐详情
-  queryCombosDetail: number => {
+  queryCombosDetail: (combosId) => {
     return new Promise((resolve, reject) => {
       try {
-        sql = `select * from combos where number = '${number}'`;
+        sql = `select * from combos where combosId = '${combosId}'`;
         db.query(sql, (err, rows) => {
           if (err) {
             reject(err);
@@ -51,5 +51,5 @@ module.exports = {
         resolve(null);
       }
     });
-  }
+  },
 };
