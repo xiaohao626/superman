@@ -10,6 +10,7 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var placeRouter = require("./routes/place");
 var combosRouter = require("./routes/combos");
+var commentRouter = require("./routes/comment");
 
 var app = express();
 
@@ -27,6 +28,7 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/place", placeRouter);
 app.use("/combos", combosRouter);
+app.use("/comment", commentRouter);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

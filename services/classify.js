@@ -5,7 +5,6 @@ module.exports = {
   getClassifyList: () => {
     return new Promise((resolve, reject) => {
       try {
-        // sql = `select * from combos where number = '${number}'`;
         sql = `select * from classify`;
         db.query(sql, (err, rows) => {
           if (err) {
@@ -17,5 +16,5 @@ module.exports = {
         resolve(null);
       }
     });
-  }
+  },
 };

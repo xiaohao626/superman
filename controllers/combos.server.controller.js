@@ -33,11 +33,16 @@ module.exports = {
   // 获取套餐详情
   getCombosDetail: async (req, res) => {
     try {
-      let result = [];
-      const { id } = req.query || {};
+      let result = {};
+      const { id, combosId } = req.query || {};
 
       if (id) {
-        result = (await services.queryCombosDetail(id)) || [];
+        const detail = (await services.queryCombosDetail(id)) || [];
+        result.combosDetail = detail[0] || null;
+      }
+
+      if (result.combosDetail && combosId) {
+        result.comment = await services.queryCommentByCombosId(combosId);
       }
 
       res.send(result);
