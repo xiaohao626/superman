@@ -14,12 +14,13 @@ module.exports = {
           realPrice = null,
           selectDate = null,
           complete = 1,
+          title = null,
         } = params;
 
-        const keys = `uid,combosId,number,copies,createTime,realPrice,selectDate,complete`;
+        const keys = `uid,combosId,number,copies,createTime,realPrice,selectDate,complete,title`;
         const values = `${uid},${combosId},${number},${copies},now(),${realPrice},FROM_UNIXTIME(${
           selectDate / 1000
-        },'%Y-%m-%d %H:%i:%s'),${complete}`;
+        },'%Y-%m-%d %H:%i:%s'),${complete},'${title}'`;
 
         sql = `insert into orderList (${keys}) values (${values})`;
 
@@ -55,17 +56,20 @@ module.exports = {
       }
     });
   },
-  // 通过id查询订单
-  queryOrderListByUid: (uid) => {
+  // 通过用户id[用户搜索]查询订单
+  queryOrderListByUid: (uid, searchOrderKey = "") => {
     return new Promise((resolve, reject) => {
       try {
-        // const sql = `select * from orderList where uid = '${uid}'`;
+        const searchSql = `and title like '%${searchOrderKey}%'`;
         const keys = `uid,combosId,number,copies,${sqlTool.fmtTimePrecise(
           "createTime"
         )},realPrice,${sqlTool.fmtTimeSimple(
           "selectDate"
         )},complete,${sqlTool.fmtTimeSimple("completeTime")}`;
-        const sql = `select ${keys} from orderList where uid = '${uid}'`;
+        const sql = `select ${keys} from orderList where uid = '${uid}' ${
+          !!searchOrderKey ? searchSql : ""
+        } order by id desc`;
+
         db.query(sql, (err, rows) => {
           if (err) {
             reject(err);

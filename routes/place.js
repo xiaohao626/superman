@@ -8,6 +8,6 @@ const placeController = require("../controllers/place.server.controller");
 // router.get("/conditionalSearchPlace", placeController.conditionalSearchPlace);
 // 查询某景点详情 TODO: 改造成查询套餐详情
 router.get("/getAllPlace", placeController.queryAllPlace);
-router.get("/getPlaceDetail", placeController.getPlaceDetail);
+router.get("/queryPlaceDetailById", placeController.queryPlaceDetailById);
 
 module.exports = router;

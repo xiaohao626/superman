@@ -10,8 +10,18 @@ module.exports = {
       let result = {};
       let { query = {} } = req || {};
       let _query = query;
+
       // 生成订单号
       _query.number = tool.guidNum(global.uniqueCodePrefix.orderNumber);
+      // 获取套餐标题
+      if (_query.combosId) {
+        const preCombosInfo =
+          (await services.queryCombosDetail(_query.combosId))[0] || {};
+
+        if (preCombosInfo.title) {
+          _query.title = preCombosInfo.title;
+        }
+      }
 
       insertRes = (await services.createOrder(_query)) || [];
 
@@ -30,38 +40,39 @@ module.exports = {
     }
   },
   // 根据uid查询用户订单列表
-  createOrder: async (req, res) => {
-    try {
-      let result = {};
-      let { query = {} } = req || {};
-      let _query = query;
-      // 生成订单号
-      _query.number = tool.guidNum(global.uniqueCodePrefix.orderNumber);
+  // createOrder: async (req, res) => {
+  //   try {
+  //     let result = {};
+  //     let { query = {} } = req || {};
+  //     let _query = query;
+  //     // 生成订单号
+  //     _query.number = tool.guidNum(global.uniqueCodePrefix.orderNumber);
 
-      insertRes = (await services.createOrder(_query)) || [];
+  //     insertRes = (await services.createOrder(_query)) || [];
 
-      if (insertRes.insertId) {
-        const orderRes =
-          (await services.queryOrderById(insertRes.insertId))[0] || null;
-        const combosRes =
-          (await services.queryCombosDetail(orderRes.combosId))[0] || null;
-        result.order = orderRes;
-        result.combos = combosRes;
-      }
+  //     if (insertRes.insertId) {
+  //       const orderRes =
+  //         (await services.queryOrderById(insertRes.insertId))[0] || null;
+  //       const combosRes =
+  //         (await services.queryCombosDetail(orderRes.combosId))[0] || null;
+  //       result.order = orderRes;
+  //       result.combos = combosRes;
+  //     }
 
-      res.send(result);
-    } catch (e) {
-      res.send(e);
-    }
-  },
-  // 根据用户id查询用户订单
+  //     res.send(result);
+  //   } catch (e) {
+  //     res.send(e);
+  //   }
+  // },
+  // 根据用户id[用户搜索]查询用户订单列表
   queryOrderListByUid: async (req, res) => {
     try {
       let result = [];
-      const { uid = "" } = req.query || {};
+      const { uid = "", searchOrderKey = "" } = req.query || {};
 
       if (uid) {
-        const list = (await services.queryOrderListByUid(uid)) || [];
+        const list =
+          (await services.queryOrderListByUid(uid, searchOrderKey)) || [];
         if (Array.isArray(list) && list.length) {
           result = list;
           let resultPromise = result.map((order) => joinCombos(order));

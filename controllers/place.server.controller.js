@@ -26,4 +26,19 @@ module.exports = {
       res.send(e);
     }
   },
+  // 根据景点Id查询景点详细信息
+  queryPlaceDetailById: async (req, res) => {
+    try {
+      let detail = {};
+      const { placeId = "" } = req.query || {};
+
+      if (placeId) {
+        detail = (await services.queryPlaceDetailById(placeId))[0] || [];
+      }
+
+      res.send(detail);
+    } catch (e) {
+      res.send(e);
+    }
+  },
 };
