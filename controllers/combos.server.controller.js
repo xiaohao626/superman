@@ -26,6 +26,9 @@ module.exports = {
   fuzzyQueryCombosList: async (req, res) => {
     try {
       let { value = "" } = req.query;
+      // TODO:
+      console.log("query:", req.query);
+
       let queryRes = (await services.fuzzySearchCombos(value)) || [];
       res.send(queryRes);
     } catch (e) {}
@@ -39,6 +42,41 @@ module.exports = {
       if (combosId) {
         const detail = (await services.queryCombosDetail(combosId)) || [];
         result.combosDetail = detail[0] || null;
+      }
+
+      // 获取套餐中景点列表
+      if (result.combosDetail) {
+        let { placeIdListStr = "" } = result.combosDetail || {};
+        let placeIdList = placeIdListStr.split(",");
+
+        if (Array.isArray(placeIdList) && placeIdList.length) {
+          const placeIdPromiseList = placeIdList.map((placeId) => {
+            return services.queryPlaceDetailById(placeId);
+          });
+          let placeRes = await Promise.all(placeIdPromiseList);
+
+          result.combosDetail.placeList = placeRes
+            .map((item) => item[0])
+            .filter((item) => !!item);
+        }
+      }
+
+      // 获取套餐标签列表
+      if (result.combosDetail) {
+        // scenicType字段存储的是scenicId列表
+        let { scenicType = "" } = result.combosDetail || {};
+        let scenicIdList = scenicType.split(",");
+
+        if (Array.isArray(scenicIdList) && scenicIdList.length) {
+          const scenicPromiseList = scenicIdList.map((scenicId) => {
+            return services.queryScenicTypeById(scenicId);
+          });
+          let scenicRes = await Promise.all(scenicPromiseList);
+
+          result.combosDetail.scenicTipList = scenicRes
+            .map((item) => item[0])
+            .filter((item) => !!item);
+        }
       }
 
       if (result.combosDetail && combosId) {

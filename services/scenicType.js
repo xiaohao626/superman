@@ -1,14 +1,13 @@
 const db = require("../config/db");
 
 module.exports = {
-  // 获取景点classify列表
-  queryCommentByCombosId: (combosId) => {
+  // 根据类型id查询相应类型标签
+  queryScenicTypeById: (scenicId) => {
     return new Promise((resolve, reject) => {
       try {
         // TODO:
-        console.log("ccccid:", combosId);
-        // sql = `select * from combos where number = '${number}'`;
-        sql = `select * from comment where combosId = '${combosId}'`;
+        console.log("scenicIdServicescenicIdscenicId:", scenicId);
+        sql = `select * from scenicType where scenicId = '${scenicId}'`;
         db.query(sql, (err, rows) => {
           if (err) {
             reject(err);
