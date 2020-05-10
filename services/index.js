@@ -5,6 +5,7 @@ const user = require("./user");
 const comment = require("./comment");
 const scenicType = require("./scenicType");
 const order = require("./order");
+const feature = require("./feature");
 
 module.exports = {
   ...classify,
@@ -14,4 +15,5 @@ module.exports = {
   ...comment,
   ...scenicType,
   ...order,
+  ...feature,
 };

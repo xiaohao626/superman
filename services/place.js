@@ -16,32 +16,26 @@
 //   });
 // }; //修改
 
-// let insert = (attributenames, attributes) => {
-//   return new Promise((resolve, reject) => {
-//     db.query(
-//       `insert into user ${attributenames} values ${attributes}`,
-//       (err, rows) => {
-//         if (err) {
-//           reject(err);
-//         }
-//         resolve(rows);
-//       }
-//     );
-//   });
-// }; //增加
-
-// exports.queryPlaceList = queryPlaceList;
-
-// exports.select = select;
-// exports.update = update;
-// exports.insert = insert;
-
 const db = require("../config/db");
 
 module.exports = {
-  selectPlaceList: () => {
+  selectPlaceList: (params) => {
     return new Promise((resolve) => {
+      // const { scenicId = "", featureId = "" } = params || {};
       let sql = `select * from placeList`;
+
+      if (Object.keys(params).length) {
+        sql = `select * from placeList where`;
+        Object.keys(params).forEach((item) => {
+          if (item) {
+            sql += ` ${item} like '%${params[item]}%'`;
+          }
+        });
+      }
+
+      // TODO:
+      console.log("sql::", sql);
+
       db.query(sql, (err, rows) => {
         if (err) {
           reject(err);

@@ -1,11 +1,11 @@
 const db = require("../config/db");
 
 module.exports = {
-  // 获取景点classify列表
-  queryCommentByCombosId: (combosId) => {
+  // 获取景点星级列表
+  queryFeatureList: () => {
     return new Promise((resolve, reject) => {
       try {
-        sql = `select * from comment where combosId = '${combosId}'`;
+        sql = `select * from feature`;
         db.query(sql, (err, rows) => {
           if (err) {
             reject(err);

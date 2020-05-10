@@ -4,8 +4,11 @@ module.exports = {
   queryAllPlace: async (req, res) => {
     try {
       let result = [];
+      let { query = {} } = req;
+      let { scenicId = "", featureId = "" } = query || {};
+      const params = { scenicId, featureId };
 
-      result = (await services.selectPlaceList()) || [];
+      result = (await services.selectPlaceList(params)) || [];
       res.send(result);
     } catch (e) {
       res.send(e);

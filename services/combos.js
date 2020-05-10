@@ -9,7 +9,7 @@ module.exports = {
   getCombosWithClassifyList: (classify) => {
     return new Promise((resolve, reject) => {
       try {
-        sql = `select * from combos where classify = '${classify}'`;
+        sql = `select * from combos where classify like '%${classify}%'`;
         db.query(sql, (err, rows) => {
           if (err) {
             reject(err);

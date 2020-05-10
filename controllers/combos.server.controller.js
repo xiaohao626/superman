@@ -26,8 +26,6 @@ module.exports = {
   fuzzyQueryCombosList: async (req, res) => {
     try {
       let { value = "" } = req.query;
-      // TODO:
-      console.log("query:", req.query);
 
       let queryRes = (await services.fuzzySearchCombos(value)) || [];
       res.send(queryRes);
