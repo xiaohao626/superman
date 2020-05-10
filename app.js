@@ -13,6 +13,7 @@ var combosRouter = require("./routes/combos");
 var commentRouter = require("./routes/comment");
 var orderRouter = require("./routes/order");
 var featureRouter = require("./routes/feature");
+var scenicRouter = require("./routes/scenic");
 
 var app = express();
 
@@ -33,6 +34,7 @@ app.use("/combos", combosRouter);
 app.use("/comment", commentRouter);
 app.use("/order", orderRouter);
 app.use("/feature", featureRouter);
+app.use("/scenic", scenicRouter);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

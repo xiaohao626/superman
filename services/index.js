@@ -6,6 +6,7 @@ const comment = require("./comment");
 const scenicType = require("./scenicType");
 const order = require("./order");
 const feature = require("./feature");
+const scenic = require("./scenic");
 
 module.exports = {
   ...classify,
@@ -16,4 +17,5 @@ module.exports = {
   ...scenicType,
   ...order,
   ...feature,
+  ...scenic,
 };

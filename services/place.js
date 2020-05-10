@@ -21,20 +21,8 @@ const db = require("../config/db");
 module.exports = {
   selectPlaceList: (params) => {
     return new Promise((resolve) => {
-      // const { scenicId = "", featureId = "" } = params || {};
-      let sql = `select * from placeList`;
-
-      if (Object.keys(params).length) {
-        sql = `select * from placeList where`;
-        Object.keys(params).forEach((item) => {
-          if (item) {
-            sql += ` ${item} like '%${params[item]}%'`;
-          }
-        });
-      }
-
-      // TODO:
-      console.log("sql::", sql);
+      const { scenicId = "", featureId = "" } = params || {};
+      let sql = `select * from placeList where scenicId like '%${scenicId}%' and feature like '%${featureId}%'`;
 
       db.query(sql, (err, rows) => {
         if (err) {
