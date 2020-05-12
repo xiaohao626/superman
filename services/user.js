@@ -18,7 +18,23 @@ module.exports = {
         resolve(null);
       }
     });
-  }
+  },
+  queryUserList: () => {
+    return new Promise((resolve, reject) => {
+      try {
+        // TODO:
+       const sql = `select * from user`;
+        db.query(sql, (err, rows) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(rows);
+        });
+      } catch (e) {
+        resolve(null);
+      }
+    });
+  },
 };
 
 // let show = () => {

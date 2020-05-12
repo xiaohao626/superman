@@ -39,5 +39,16 @@ module.exports = {
     } catch (e) {
       return res.send(e);
     }
-  }
+  },
+  //获取用户列表
+  getUserList: async (req, res) => {
+    try {
+      let result = [];
+
+      result = (await user.queryUserList()) || [];
+      res.send(result);
+    } catch (e) {
+      res.send(e);
+    }
+  },
 };
