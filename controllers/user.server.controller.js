@@ -51,4 +51,15 @@ module.exports = {
       res.send(e);
     }
   },
+  //删除用户
+  deleteUser:async (req,res)=>{
+    try{
+      let { id } = req.query;
+      let result='删除成功';
+      result=(await user.delUser({id})) || '';
+      res.send(result);
+    }catch(e){
+      res.send(e);
+    }
+  }
 };
