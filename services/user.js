@@ -35,6 +35,22 @@ module.exports = {
       }
     });
   },
+  delUser:(params = {})=>{
+    return new Promise((resolve, reject) => {
+      try {
+        let { id } = params;
+        sql = `delete from user where id = '${id}'`;
+        db.query(sql, (err, rows) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(rows);
+        });
+      } catch (e) {
+        resolve(null);
+      }
+    });
+  }
 };
 
 // let show = () => {

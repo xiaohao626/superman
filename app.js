@@ -36,6 +36,7 @@ app.use("/order", orderRouter);
 app.use("/feature", featureRouter);
 app.use("/scenic", scenicRouter);
 app.use("/userList",usersRouter);
+app.use("/delUser",usersRouter);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
