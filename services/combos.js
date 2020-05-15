@@ -52,4 +52,27 @@ module.exports = {
       }
     });
   },
+  /**
+   * 通过约束条件查询套餐列表
+   * @param {Object} params 需要匹配的字段
+   * @property {String} params.placeId 景点Id
+   */
+  queryCombosListByParams: (params = {}) => {
+    return new Promise((resolve, reject) => {
+      try {
+        // placeId
+        const { placeId = "" } = params || {};
+
+        sql = `select * from combos where placeIdListStr like '%${placeId}%'`;
+        db.query(sql, (err, rows) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(rows);
+        });
+      } catch (e) {
+        resolve(null);
+      }
+    });
+  },
 };

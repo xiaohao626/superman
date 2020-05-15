@@ -6,6 +6,8 @@ module.exports = {
     return new Promise((resolve, reject) => {
       try {
         sql = `select * from comment where combosId = '${combosId}'`;
+        // TODO:
+        console.log("sql:", sql);
         db.query(sql, (err, rows) => {
           if (err) {
             reject(err);

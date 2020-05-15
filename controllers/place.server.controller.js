@@ -1,6 +1,7 @@
 const services = require("../services");
 
 module.exports = {
+  // 查询所有景点
   queryAllPlace: async (req, res) => {
     try {
       let result = [];
@@ -15,20 +16,20 @@ module.exports = {
     }
   },
   // 获取景点详细信息
-  getPlaceDetail: async (req, res) => {
-    try {
-      let result = [];
-      const { id } = req.query || {};
+  // getPlaceDetail: async (req, res) => {
+  //   try {
+  //     let result = [];
+  //     const { id } = req.query || {};
 
-      if (id) {
-        result = (await services.selectPlaceDetail(id)) || [];
-      }
+  //     if (id) {
+  //       result = (await services.selectPlaceDetail(id)) || [];
+  //     }
 
-      res.send(result);
-    } catch (e) {
-      res.send(e);
-    }
-  },
+  //     res.send(result);
+  //   } catch (e) {
+  //     res.send(e);
+  //   }
+  // },
   // 根据景点Id查询景点详细信息
   queryPlaceDetailById: async (req, res) => {
     try {
@@ -37,6 +38,15 @@ module.exports = {
 
       if (placeId) {
         detail = (await services.queryPlaceDetailById(placeId))[0] || [];
+      }
+
+      // 组装包含套餐
+      if (detail.placeId) {
+        const params = { placeId: detail.placeId };
+        const combosList =
+          (await services.queryCombosListByParams(params)) || [];
+
+        detail.combosList = combosList;
       }
 
       res.send(detail);

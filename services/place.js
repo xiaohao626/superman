@@ -19,6 +19,7 @@
 const db = require("../config/db");
 
 module.exports = {
+  // 查询景点列表
   selectPlaceList: (params) => {
     return new Promise((resolve) => {
       const { scenicId = "", featureId = "" } = params || {};

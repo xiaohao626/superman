@@ -41,9 +41,11 @@ module.exports = {
       try {
         const keys = `combosId,number,${sqlTool.fmtTimePrecise(
           "createTime"
-        )},realPrice,${sqlTool.fmtTimeSimple("selectDate")},complete`;
+        )},realPrice,${sqlTool.fmtTimeSimple(
+          "selectDate"
+        )},complete,${sqlTool.fmtTimeSimple("completeTime")}`;
 
-        sql = `select ${keys} from orderList where id = '${id}'`;
+        sql = `select ${keys} from orderList where id = '${id}' and isDel = 0`;
 
         db.query(sql, (err, rows) => {
           if (err) {
@@ -56,7 +58,7 @@ module.exports = {
       }
     });
   },
-  // 通过用户id[用户搜索]查询订单
+  // 通过用户id[用户搜索]查询订单列表
   queryOrderListByUid: (uid, searchOrderKey = "") => {
     return new Promise((resolve, reject) => {
       try {
@@ -65,10 +67,58 @@ module.exports = {
           "createTime"
         )},realPrice,${sqlTool.fmtTimeSimple(
           "selectDate"
-        )},complete,${sqlTool.fmtTimeSimple("completeTime")}`;
+        )},complete,${sqlTool.fmtTimePrecise("completeTime")}`;
         const sql = `select ${keys} from orderList where uid = '${uid}' ${
           !!searchOrderKey ? searchSql : ""
-        } order by id desc`;
+        } and isDel = 0 order by id desc`;
+
+        db.query(sql, (err, rows) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(rows);
+        });
+      } catch (e) {
+        resolve(null);
+      }
+    });
+  },
+  /**
+   * 通过订单编号完成订单
+   * @param {String} number 订单编号
+   */
+  completeOrderByNumber: (number) => {
+    return new Promise((resolve, reject) => {
+      try {
+        if (!number) {
+          resolve(null);
+        }
+
+        const sql = `update orderList set complete=2,completeTime=now() where number = ${number}`;
+
+        db.query(sql, (err, rows) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(rows);
+        });
+      } catch (e) {
+        resolve(null);
+      }
+    });
+  },
+  /**
+   * 通过订单编号删除订单
+   * @param {String} number 订单编号
+   */
+  deleteOrderByNumber: (number) => {
+    return new Promise((resolve, reject) => {
+      try {
+        if (!number) {
+          resolve(null);
+        }
+
+        const sql = `update orderList set isDel=1 where number = ${number}`;
 
         db.query(sql, (err, rows) => {
           if (err) {

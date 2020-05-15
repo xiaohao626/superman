@@ -39,31 +39,6 @@ module.exports = {
       res.send(e);
     }
   },
-  // 根据uid查询用户订单列表
-  // createOrder: async (req, res) => {
-  //   try {
-  //     let result = {};
-  //     let { query = {} } = req || {};
-  //     let _query = query;
-  //     // 生成订单号
-  //     _query.number = tool.guidNum(global.uniqueCodePrefix.orderNumber);
-
-  //     insertRes = (await services.createOrder(_query)) || [];
-
-  //     if (insertRes.insertId) {
-  //       const orderRes =
-  //         (await services.queryOrderById(insertRes.insertId))[0] || null;
-  //       const combosRes =
-  //         (await services.queryCombosDetail(orderRes.combosId))[0] || null;
-  //       result.order = orderRes;
-  //       result.combos = combosRes;
-  //     }
-
-  //     res.send(result);
-  //   } catch (e) {
-  //     res.send(e);
-  //   }
-  // },
   // 根据用户id[用户搜索]查询用户订单列表
   queryOrderListByUid: async (req, res) => {
     try {
@@ -91,6 +66,53 @@ module.exports = {
 
         return order;
       }
+    } catch (e) {
+      res.send(e);
+    }
+  },
+  // 根据订单编号完成订单
+  completeOrderByNumber: async (req, res) => {
+    try {
+      let { number = "" } = req.query || {};
+      if (!number) {
+        res.send(null);
+      }
+
+      let result = {
+        success: false,
+      };
+      let updateRes = (await services.completeOrderByNumber(number)) || [];
+
+      if (updateRes && updateRes.affectedRows) {
+        result.success = true;
+      }
+
+      res.send(result);
+    } catch (e) {
+      res.send(e);
+    }
+  },
+  // 根据订单编号删除订单
+  deleteOrderByNumber: async (req, res) => {
+    try {
+      let { number = "" } = req.query || {};
+      if (!number) {
+        res.send(null);
+      }
+
+      let result = {
+        success: false,
+      };
+      let updateRes = (await services.deleteOrderByNumber(number)) || [];
+
+      // TODO:
+      console.log("updateRes");
+
+      if (updateRes && updateRes.affectedRows) {
+        result.success = true;
+      }
+
+      res.send(result);
     } catch (e) {
       res.send(e);
     }
