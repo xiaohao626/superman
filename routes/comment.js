@@ -7,5 +7,6 @@ router.get(
   "/queryCommentListByCombosId",
   commentController.queryCommentListByCombosId
 );
-
+router.get("/queryCommentList", commentController.queryCommentList);//获取评论列表
+router.get("/deleteComment", commentController.deleteComment);//删除评论
 module.exports = router;

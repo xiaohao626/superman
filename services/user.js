@@ -39,7 +39,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       try {
         let { id } = params;
-        sql = `delete from user where id = '${id}'`;
+        sql = `update user set isdelete=1 where id = '${id}'`;
         db.query(sql, (err, rows) => {
           if (err) {
             reject(err);

@@ -17,4 +17,20 @@ module.exports = {
       }
     });
   },
+  //删除景点星级
+  deleteFeature: (featureId) => {
+    return new Promise((resolve, reject) => {
+      try {
+        sql = `update feature set isDel=1 where featureId = '${featureId}'`;
+        db.query(sql, (err, rows) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(rows);
+        });
+      } catch (e) {
+        resolve(null);
+      }
+    });
+  },
 };
