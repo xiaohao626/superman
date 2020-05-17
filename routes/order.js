@@ -5,8 +5,14 @@ const orderController = require("../controllers/order.server.controller");
 // 生成订单
 router.get("/createOrder", orderController.createOrder);
 
-// 根据用户id查询订单表
+// 根据用户Id查询订单表
 router.get("/queryOrderByUid", orderController.queryOrderListByUid);
+
+// 根据用户Id & 订单编号查询订单详情
+router.get(
+  "/queryOrderDetailByUidAndNumber",
+  orderController.queryOrderDetailByUidAndNumber
+);
 
 // 根据订单编号完成订单
 router.get("/completeOrderByNumber", orderController.completeOrderByNumber);

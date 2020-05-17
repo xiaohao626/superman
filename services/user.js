@@ -1,7 +1,5 @@
 const db = require("../config/db");
 
-// const TABLE = db.TABLE_NAME.USER;
-
 module.exports = {
   verifyUserLogin(params = {}) {
     return new Promise((resolve, reject) => {
@@ -19,11 +17,14 @@ module.exports = {
       }
     });
   },
-  queryUserList: () => {
+  // 通过uid查询用户信息
+  queryUserDetail: (uid) => {
     return new Promise((resolve, reject) => {
       try {
-        // TODO:
-       const sql = `select * from user`;
+        if (!uid) {
+          resolve(null);
+        }
+        const sql = `select * from user where uid = ${uid}`;
         db.query(sql, (err, rows) => {
           if (err) {
             reject(err);
@@ -35,7 +36,23 @@ module.exports = {
       }
     });
   },
-  delUser:(params = {})=>{
+  queryUserList: () => {
+    return new Promise((resolve, reject) => {
+      try {
+        // TODO:
+        const sql = `select * from user`;
+        db.query(sql, (err, rows) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(rows);
+        });
+      } catch (e) {
+        resolve(null);
+      }
+    });
+  },
+  delUser: (params = {}) => {
     return new Promise((resolve, reject) => {
       try {
         let { id } = params;
@@ -50,7 +67,7 @@ module.exports = {
         resolve(null);
       }
     });
-  }
+  },
 };
 
 // let show = () => {

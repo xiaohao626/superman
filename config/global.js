@@ -6,6 +6,7 @@ const uniqueCodePrefix = {
   featureId: 103, // 景点类型（星级）
   scenicId: 104, // 景点/套餐特色
   classifyId: 105, // 景点/套餐分类
+  commentId: 106, // 评价
 };
 
 module.exports = {

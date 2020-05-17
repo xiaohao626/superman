@@ -22,7 +22,7 @@ module.exports = {
           selectDate / 1000
         },'%Y-%m-%d %H:%i:%s'),${complete},'${title}'`;
 
-        sql = `insert into orderList (${keys}) values (${values})`;
+        const sql = `insert into orderList (${keys}) values (${values})`;
 
         db.query(sql, (err, rows) => {
           if (err) {
@@ -62,15 +62,44 @@ module.exports = {
   queryOrderListByUid: (uid, searchOrderKey = "") => {
     return new Promise((resolve, reject) => {
       try {
-        const searchSql = `and title like '%${searchOrderKey}%'`;
+        const createTime = sqlTool.fmtTimePrecise("createTime");
+        const selectDate = sqlTool.fmtTimeSimple("selectDate");
+        const completeTime = sqlTool.fmtTimePrecise("completeTime");
+        const searchOrderSql = searchOrderKey
+          ? ` and title like '%${searchOrderKey}%'`
+          : "";
+        const keys = `uid,combosId,number,copies,${createTime},realPrice,${selectDate},complete,${completeTime},alreadyComment`;
+
+        const sql = `select ${keys} from orderList where uid = '${uid}'${searchOrderSql} and isDel = 0 order by id desc`;
+
+        db.query(sql, (err, rows) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(rows);
+        });
+      } catch (e) {
+        resolve(null);
+      }
+    });
+  },
+  /**
+   * 根据用户Id & 订单编号查询订单详情
+   * @param {Object} params 参数
+   * @property {String} params.uid 用户Id
+   * @property {String} params.number 订单编号
+   */
+  queryOrderDetailByUidAndNumber: (params = {}) => {
+    return new Promise((resolve, reject) => {
+      try {
+        const { uid, number } = params || {};
         const keys = `uid,combosId,number,copies,${sqlTool.fmtTimePrecise(
           "createTime"
         )},realPrice,${sqlTool.fmtTimeSimple(
           "selectDate"
         )},complete,${sqlTool.fmtTimePrecise("completeTime")}`;
-        const sql = `select ${keys} from orderList where uid = '${uid}' ${
-          !!searchOrderKey ? searchSql : ""
-        } and isDel = 0 order by id desc`;
+
+        const sql = `select ${keys} from orderList where uid = ${uid} and number = ${number}`;
 
         db.query(sql, (err, rows) => {
           if (err) {
@@ -119,6 +148,28 @@ module.exports = {
         }
 
         const sql = `update orderList set isDel=1 where number = ${number}`;
+
+        db.query(sql, (err, rows) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(rows);
+        });
+      } catch (e) {
+        resolve(null);
+      }
+    });
+  },
+  /**
+   * 修改订单是否可以评论
+   * @param {String} params 参数
+   */
+  setOrderAlreadyComment: (params = {}) => {
+    return new Promise((resolve, reject) => {
+      try {
+        const { number, alreadyComment = 0 } = params || {};
+
+        const sql = `update orderList set alreadyComment=${alreadyComment} where number = ${number}`;
 
         db.query(sql, (err, rows) => {
           if (err) {

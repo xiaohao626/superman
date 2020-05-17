@@ -70,6 +70,37 @@ module.exports = {
       res.send(e);
     }
   },
+  // 根据用户Id & 订单编号查询订单详情
+  queryOrderDetailByUidAndNumber: async (req, res) => {
+    try {
+      let result = null;
+      let { uid, number } = req.query || {};
+      if (!uid || !number) {
+        res.send(null);
+      }
+
+      let order =
+        (await services.queryOrderDetailByUidAndNumber({ uid, number })) || [];
+
+      // 判断是否存在所查询的订单
+      if (Array.isArray(order) && order.length) {
+        result = order[0] || null;
+      }
+
+      if (result && result.combosId) {
+        const { combosId } = result;
+        let combos = await services.queryCombosDetail(combosId);
+
+        if (combos && combos.length) {
+          result.combos = combos[0];
+        }
+      }
+
+      res.send(result);
+    } catch (e) {
+      res.send(e);
+    }
+  },
   // 根据订单编号完成订单
   completeOrderByNumber: async (req, res) => {
     try {

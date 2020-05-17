@@ -8,4 +8,7 @@ router.get(
   commentController.queryCommentListByCombosId
 );
 
+// 生成评价
+router.get("/createComment", commentController.createComment);
+
 module.exports = router;
