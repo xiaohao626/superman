@@ -6,5 +6,8 @@ const placeController = require("../controllers/place.server.controller");
 router.get("/getAllPlace", placeController.queryAllPlace);
 
 router.get("/queryPlaceDetailById", placeController.queryPlaceDetailById);
+//删除景点
+router.get("/delPlace", placeController.deletePlace);
+
 
 module.exports = router;

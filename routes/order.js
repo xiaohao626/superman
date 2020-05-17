@@ -20,4 +20,10 @@ router.get("/completeOrderByNumber", orderController.completeOrderByNumber);
 // 根据订单编号删除订单
 router.get("/deleteOrderByNumber", orderController.deleteOrderByNumber);
 
+// 获取订单列表
+router.get("/queryOrderList", orderController.queryOrderList);
+
+// 删除订单
+router.get("/deleteOrder", orderController.deleteOrder);
+
 module.exports = router;

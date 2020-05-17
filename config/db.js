@@ -1,8 +1,14 @@
 var mysql = require("mysql");
 
+// const dbConfig = {
+//   host: "localhost",
+//   user: "root",
+//   password: "111111",
+//   database: "loveTravel"
+// };
 const dbConfig = {
-  host: "localhost",
-  user: "root",
+  host: "192.168.50.107",
+  user: "kangjian",
   password: "111111",
   database: "loveTravel"
 };

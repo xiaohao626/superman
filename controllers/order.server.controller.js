@@ -148,4 +148,30 @@ module.exports = {
       res.send(e);
     }
   },
+  // 查询订单列表
+  queryOrderList: async (req, res) => {
+    try {
+      let result = [];
+      result = (await services.queryOrderList()) || [];
+      result.forEach((el,index)=>{
+        if(el.isDel==1){
+          result.splice(index,1)
+        }
+      });
+      res.send(result);
+    } catch (e) {
+      res.send(e);
+    }
+  },
+  //删除订单
+  deleteOrder:async (req,res)=>{
+    try{
+      let { number } = req.query;
+      let result='删除成功';
+      result=(await services.deleteOrder(number)) || '';
+      res.send(result);
+    }catch(e){
+      res.send(e);
+    }
+  }
 };

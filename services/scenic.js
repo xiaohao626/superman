@@ -17,4 +17,21 @@ module.exports = {
       }
     });
   },
+  //删除景点分类
+  deleteClassify: (classifyId) => {
+    return new Promise((resolve, reject) => {
+      console.log(classifyId)
+      try {
+        sql = `update classify set isDel=1 where classifyId = '${classifyId}'`;
+        db.query(sql, (err, rows) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(rows);
+        });
+      } catch (e) {
+        resolve(null);
+      }
+    });
+  },
 };

@@ -65,4 +65,20 @@ module.exports = {
       }
     });
   },
+  //删除景点
+  deletePlace: (placeId) => {
+    return new Promise((resolve, reject) => {
+      try {
+        sql = `update placeList set isDel=1 where placeId = '${placeId}'`;
+        db.query(sql, (err, rows) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(rows);
+        });
+      } catch (e) {
+        resolve(null);
+      }
+    });
+  },
 };

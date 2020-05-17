@@ -86,4 +86,30 @@ module.exports = {
       res.send(e);
     }
   },
+  //获取套餐列表
+  queryCombosList: async (req, res) => {
+    try {
+      let result = [];
+      result = (await services.queryCombosList()) || [];
+      result.forEach((el,index)=>{
+        if(el.isDel==1){
+          result.splice(index,1)
+        }
+      });
+      res.send(result);
+    } catch (e) {
+      res.send(e);
+    }
+  },
+  //删除景点套餐
+  deleteCombos:async (req,res)=>{
+    try{
+      let { id } = req.query;
+      let result='删除成功';
+      result=(await services.deleteCombos(id)) || '';
+      res.send(result);
+    }catch(e){
+      res.send(e);
+    }
+  }
 };

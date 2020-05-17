@@ -46,6 +46,11 @@ module.exports = {
       let result = [];
 
       result = (await user.queryUserList()) || [];
+      result.forEach((el,index)=>{
+        if(el.isdelete==1){
+          result.splice(index,1)
+        }
+      });
       res.send(result);
     } catch (e) {
       res.send(e);

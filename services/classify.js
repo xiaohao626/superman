@@ -2,7 +2,7 @@ const db = require("../config/db");
 
 module.exports = {
   // 获取景点classify列表
-  getClassifyList: () => {
+  queryClassifyList: () => {
     return new Promise((resolve, reject) => {
       try {
         sql = `select * from classify`;
