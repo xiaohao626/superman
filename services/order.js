@@ -181,6 +181,27 @@ module.exports = {
       }
     });
   },
+   // 获取订单列表
+   queryOrderList: () => {
+    return new Promise((resolve, reject) => {
+      try {
+        const keys = `id,uid,combosId,number,copies,${sqlTool.fmtTimePrecise(
+          "createTime"
+        )},realPrice,${sqlTool.fmtTimeSimple(
+          "selectDate"
+        )},complete,${sqlTool.fmtTimePrecise("completeTime")}`;
+        const sql = `select ${keys} from orderList`;
+        db.query(sql, (err, rows) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(rows);
+        });
+      } catch (e) {
+        resolve(null);
+      }
+    });
+  },
   //删除订单
   deleteOrder: (number) => {
     return new Promise((resolve, reject) => {

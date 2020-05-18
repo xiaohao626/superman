@@ -55,7 +55,10 @@ module.exports = {
    queryCommentList: () => {
     return new Promise((resolve, reject) => {
       try {
-        sql = `select * from comment`;
+        const keys = `id,commentId,content,${sqlTool.fmtTimePrecise(
+          "time"
+        )},combosId,star,nickName,userId,userGender`;
+        const sql = `select ${keys} from comment`;
         db.query(sql, (err, rows) => {
           if (err) {
             reject(err);

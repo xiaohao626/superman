@@ -27,6 +27,29 @@ module.exports = {
       res.send(e);
     }
   },
+  //新增景点类型
+  createScenicType: async (req, res) => {
+    try {
+      let result = [];
+      let {typeName}=req.query;
+      console.log(typeName)
+      result = (await services.createScenicType(typeName)) || [];
+      res.send("新增成功");
+    } catch (e) {
+      res.send(e);
+    }
+  },
+  //修改景点分类
+  updataByScenicId:async (req,res)=>{
+    try{
+      let {scenicId,typeName}=req.query;
+      let result='';
+      result=(await services.updataByScenicId(scenicId,typeName)) || '';
+      res.send(result);
+    }catch(e){
+      res.send(e);
+    }
+  },
   //查询景点分类
   queryClassifyList: async (req, res) => {
     try {
