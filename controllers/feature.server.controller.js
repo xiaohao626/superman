@@ -6,16 +6,33 @@ module.exports = {
     try {
       let result = [];
       result = (await services.queryFeatureList()) || [];
-      result.forEach((el,index)=>{
-        if(el.isDel==1){
-          result.splice(index,1)
-        }
-      });
       res.send(result);
     } catch (e) {
       res.send(e);
     }
   },
+  //新增景点星级
+createFeature: async (req, res) => {
+  try {
+    let result = [];
+    let { featureName } = req.query;
+    result = (await services.createFeature(featureName)) || [];
+    res.send("新增成功");
+  } catch (e) {
+    res.send(e);
+  }
+},
+//修改景点星级
+updataByfeatureId: async (req, res) => {
+  try {
+    let { featureId,featureName } = req.query;
+    let result = '';
+    result = (await services.updataByfeatureId(featureId, featureName)) || '';
+    res.send(result);
+  } catch (e) {
+    res.send(e);
+  }
+},
   //删除景点星级
   deleteFeature:async (req,res)=>{
     try{

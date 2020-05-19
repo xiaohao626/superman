@@ -79,7 +79,7 @@ module.exports = {
   queryCombosList: () => {
     return new Promise((resolve, reject) => {
       try {
-        sql = `select * from combos`;
+        sql = `select * from combos where isDel=0`;
         db.query(sql, (err, rows) => {
           if (err) {
             reject(err);

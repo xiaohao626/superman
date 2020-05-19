@@ -190,7 +190,7 @@ module.exports = {
         )},realPrice,${sqlTool.fmtTimeSimple(
           "selectDate"
         )},complete,${sqlTool.fmtTimePrecise("completeTime")}`;
-        const sql = `select ${keys} from orderList`;
+        const sql = `select ${keys} from orderList where isDel=0`;
         db.query(sql, (err, rows) => {
           if (err) {
             reject(err);

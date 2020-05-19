@@ -40,7 +40,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       try {
         // TODO:
-        const sql = `select * from user`;
+        const sql = `select * from user where isdelete=0`;
         db.query(sql, (err, rows) => {
           if (err) {
             reject(err);

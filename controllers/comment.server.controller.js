@@ -60,11 +60,7 @@ module.exports = {
     try {
       let result = [];
       result = (await services.queryCommentList()) || [];
-      result.forEach((el, index) => {
-        if (el.isDel == 1) {
-          result.splice(index, 1);
-        }
-      });
+      
       res.send(result);
     } catch (e) {
       res.send(e);

@@ -58,7 +58,7 @@ module.exports = {
         const keys = `id,commentId,content,${sqlTool.fmtTimePrecise(
           "time"
         )},combosId,star,nickName,userId,userGender`;
-        const sql = `select ${keys} from comment`;
+        const sql = `select ${keys} from comment where isDel=0`;
         db.query(sql, (err, rows) => {
           if (err) {
             reject(err);

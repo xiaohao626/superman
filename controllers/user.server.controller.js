@@ -44,13 +44,7 @@ module.exports = {
   getUserList: async (req, res) => {
     try {
       let result = [];
-
-      result = (await user.queryUserList()) || [];
-      result.forEach((el,index)=>{
-        if(el.isdelete==1){
-          result.splice(index,1)
-        }
-      });
+      result = (await user.queryUserList()) || [];    
       res.send(result);
     } catch (e) {
       res.send(e);

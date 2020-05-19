@@ -23,7 +23,7 @@ module.exports = {
   selectPlaceList: (params) => {
     return new Promise((resolve) => {
       const { scenicId = "", featureId = "" } = params || {};
-      let sql = `select * from placeList where scenicId like '%${scenicId}%' and feature like '%${featureId}%'`;
+      let sql = `select * from placeList where scenicId like '%${scenicId}%' and feature like '%${featureId}%' and isDel=0`;
 
       db.query(sql, (err, rows) => {
         if (err) {
