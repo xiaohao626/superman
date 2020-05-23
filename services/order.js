@@ -68,7 +68,7 @@ module.exports = {
         const searchOrderSql = searchOrderKey
           ? ` and title like '%${searchOrderKey}%'`
           : "";
-        const keys = `uid,combosId,number,copies,${createTime},realPrice,${selectDate},complete,${completeTime},alreadyComment`;
+        const keys = `uid,title,combosId,number,copies,${createTime},realPrice,${selectDate},complete,${completeTime},alreadyComment`;
 
         const sql = `select ${keys} from orderList where uid = '${uid}'${searchOrderSql} and isDel = 0 order by id desc`;
 
@@ -181,8 +181,8 @@ module.exports = {
       }
     });
   },
-   // 获取订单列表
-   queryOrderList: () => {
+  // 获取订单列表
+  queryOrderList: () => {
     return new Promise((resolve, reject) => {
       try {
         const keys = `id,uid,combosId,number,copies,${sqlTool.fmtTimePrecise(

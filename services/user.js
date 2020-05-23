@@ -1,6 +1,7 @@
 const db = require("../config/db");
 
 module.exports = {
+  // 验证登录
   verifyUserLogin(params = {}) {
     return new Promise((resolve, reject) => {
       try {
@@ -36,10 +37,10 @@ module.exports = {
       }
     });
   },
+  // 查询所有用户列表
   queryUserList: () => {
     return new Promise((resolve, reject) => {
       try {
-        // TODO:
         const sql = `select * from user where isdelete=0`;
         db.query(sql, (err, rows) => {
           if (err) {
@@ -56,7 +57,50 @@ module.exports = {
     return new Promise((resolve, reject) => {
       try {
         let { id } = params;
-        sql = `update user set isdelete=1 where id = '${id}'`;
+        const sql = `update user set isdelete=1 where id = '${id}'`;
+        db.query(sql, (err, rows) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(rows);
+        });
+      } catch (e) {
+        resolve(null);
+      }
+    });
+  },
+  /**
+   * 通过用户Id查询用户信息
+   * @param {Object} params 参数对象
+   * @property {String} params.uid 用户Id
+   */
+  queryUserInfoByUid: (params = {}) => {
+    return new Promise((resolve, reject) => {
+      try {
+        let { uid } = params || {};
+        const sql = `select * from user where uid = '${uid}'`;
+        db.query(sql, (err, rows) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(rows);
+        });
+      } catch (e) {
+        resolve(null);
+      }
+    });
+  },
+  /**
+   * 通过用户Id修改用户信息
+   * @param {Object} params 参数对象
+   * @property {String} params.uid 用户Id
+   */
+  editUserInfoByUid: (params = {}) => {
+    return new Promise((resolve, reject) => {
+      try {
+        const { uid, name, nickName, pwd, age, sex, phone } = params || {};
+        const sql = `update user set name="${name}",nickName="${nickName}",pwd=${pwd},age=${age},sex=${sex},phone=${phone} where uid = ${uid}`;
+
         db.query(sql, (err, rows) => {
           if (err) {
             reject(err);
@@ -69,61 +113,3 @@ module.exports = {
     });
   },
 };
-
-// let show = () => {
-//   return new Promise((resolve, reject) => {
-//     db.query(`select * from user`, (err, rows) => {
-//       if (err) {
-//         reject(err);
-//       }
-//       resolve(rows);
-//     });
-//   });
-// }; //显示全部 （select*）
-
-// let select = (attributename, attribute) => {
-//   return new Promise((resolve, reject) => {
-//     db.query(
-//       `select * from user where ${attributename} = '${attribute}'`,
-//       (err, rows) => {
-//         if (err) {
-//           reject(err);
-//         }
-//         resolve(rows);
-//       }
-//     );
-//   });
-// }; //查询一行（传参)
-
-// let update = (updateattributename, newdata, attributename, attribute) => {
-//   return new Promise((resolve, reject) => {
-//     db.query(
-//       `update user set ${updateattributename} = '${newdata}' where ${attributename} = '${attribute}'`,
-//       (err, rows) => {
-//         if (err) {
-//           reject(err);
-//         }
-//         resolve(rows);
-//       }
-//     );
-//   });
-// }; //修改
-
-// let insert = (attributenames, attributes) => {
-//   return new Promise((resolve, reject) => {
-//     db.query(
-//       `insert into user ${attributenames} values ${attributes}`,
-//       (err, rows) => {
-//         if (err) {
-//           reject(err);
-//         }
-//         resolve(rows);
-//       }
-//     );
-//   });
-// }; //增加
-
-// exports.show = show;
-// exports.select = select;
-// exports.update = update;
-// exports.insert = insert;

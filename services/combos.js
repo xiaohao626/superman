@@ -4,12 +4,12 @@ module.exports = {
   /**
    * 根据套餐特点分类获取套餐列表
    * https://www.yuque.com/zhanghao-hr3kc/qg1pgz/tec7hg#DlgB1
-   * @param {String} classify 分类key值
+   * @param {String} classifyId 分类key值
    */
-  getCombosWithClassifyList: (classify) => {
+  getCombosWithClassifyList: (classifyId) => {
     return new Promise((resolve, reject) => {
       try {
-        sql = `select * from combos where classify like '%${classify}%'`;
+        sql = `select * from combos where classify like '%${classifyId}%'`;
         db.query(sql, (err, rows) => {
           if (err) {
             reject(err);

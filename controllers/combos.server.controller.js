@@ -5,11 +5,11 @@ module.exports = {
   getCombosList: async (req, res, next) => {
     try {
       let list = [];
-      let classifyRes = await services.getClassifyList();
+      let classifyRes = await services.queryClassifyList();
 
       for (let i in classifyRes) {
-        let { key, title } = classifyRes[i];
-        let item = (await services.getCombosWithClassifyList(key)) || [];
+        let { classifyId, title } = classifyRes[i];
+        let item = (await services.getCombosWithClassifyList(classifyId)) || [];
         if (item && item.length) {
           list.push({
             title,
@@ -97,14 +97,14 @@ module.exports = {
     }
   },
   //删除景点套餐
-  deleteCombos:async (req,res)=>{
-    try{
+  deleteCombos: async (req, res) => {
+    try {
       let { id } = req.query;
-      let result='删除成功';
-      result=(await services.deleteCombos(id)) || '';
+      let result = "删除成功";
+      result = (await services.deleteCombos(id)) || "";
       res.send(result);
-    }catch(e){
+    } catch (e) {
       res.send(e);
     }
-  }
+  },
 };
