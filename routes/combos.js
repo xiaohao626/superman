@@ -7,6 +7,8 @@ router.get("/getHomeCombosList", combosController.getCombosList);
 router.get("/fuzzyQueryCombosList", combosController.fuzzyQueryCombosList);
 router.get("/queryCombosDetail", combosController.getCombosDetail);
 router.get("/queryCombosList", combosController.queryCombosList);//获取套餐列表
+router.get("/createCombos", combosController.createCombos);//新增景点套餐
+router.get("/updataCombosByNumber", combosController.updataCombosByNumber);//修改景点套餐
 router.get("/deleteCombos", combosController.deleteCombos);//删除套餐
 
 module.exports = router;

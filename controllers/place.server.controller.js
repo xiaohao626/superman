@@ -5,9 +5,16 @@ module.exports = {
   queryAllPlace: async (req, res) => {
     try {
       let result = [];
-      let { query = {} } = req;
-      let { scenicId = "", featureId = "" } = query || {};
-      const params = { scenicId, featureId };
+      let {
+        query = {}
+      } = req;
+      let {
+        scenicId = "", featureId = ""
+      } = query || {};
+      const params = {
+        scenicId,
+        featureId
+      };
 
       result = (await services.selectPlaceList(params)) || [];
       res.send(result);
@@ -34,7 +41,9 @@ module.exports = {
   queryPlaceDetailById: async (req, res) => {
     try {
       let detail = {};
-      const { placeId = "" } = req.query || {};
+      const {
+        placeId = ""
+      } = req.query || {};
 
       if (placeId) {
         detail = (await services.queryPlaceDetailById(placeId))[0] || [];
@@ -42,7 +51,9 @@ module.exports = {
 
       // 组装包含套餐
       if (detail.placeId) {
-        const params = { placeId: detail.placeId };
+        const params = {
+          placeId: detail.placeId
+        };
         const combosList =
           (await services.queryCombosListByParams(params)) || [];
 
@@ -58,9 +69,16 @@ module.exports = {
   queryAllPlace: async (req, res) => {
     try {
       let result = [];
-      let { query = {} } = req;
-      let { scenicId = "", featureId = "" } = query || {};
-      const params = { scenicId, featureId };
+      let {
+        query = {}
+      } = req;
+      let {
+        scenicId = "", featureId = ""
+      } = query || {};
+      const params = {
+        scenicId,
+        featureId
+      };
 
       result = (await services.selectPlaceList(params)) || [];
       res.send(result);
@@ -68,14 +86,68 @@ module.exports = {
       res.send(e);
     }
   },
-  //删除景点
-  deletePlace:async (req,res)=>{
-    try{
-      let { placeId } = req.query;
-      let result='删除成功';
-      result=(await services.deletePlace(placeId)) || '';
+  //新增景点
+  createPlace: async (req, res) => {
+    try {
+      let result = [];
+      let {
+        title,
+        introduce,
+        price,
+        feature,
+        scenicType,
+        classify,
+        address,days
+      } = req.query;
+      result = (await services.createPlace(title,
+        introduce,
+        price,
+        feature,
+        scenicType,
+        classify,
+        address,days)) || [];
+      res.send("新增成功");
+    } catch (e) {
+      res.send(e);
+    }
+  },
+  //修改景点
+  updataPlaceById: async (req, res) => {
+    try {
+      let {
+        placeId,
+        title,
+        introduce,
+        price,
+        feature,
+        scenicType,
+        classify,
+        address,days
+      } = req.query;
+      let result = '';
+      result = (await services.updataPlaceById(placeId,
+        title,
+        introduce,
+        price,
+        feature,
+        scenicType,
+        classify,
+        address,days)) || '';
       res.send(result);
-    }catch(e){
+    } catch (e) {
+      res.send(e);
+    }
+  },
+  //删除景点
+  deletePlace: async (req, res) => {
+    try {
+      let {
+        placeId
+      } = req.query;
+      let result = '删除成功';
+      result = (await services.deletePlace(placeId)) || '';
+      res.send(result);
+    } catch (e) {
       res.send(e);
     }
   }

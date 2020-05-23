@@ -1,4 +1,6 @@
 const db = require("../config/db");
+const global = require("../config/global");
+const tool = require("../tool");
 
 module.exports = {
   /**
@@ -80,6 +82,43 @@ module.exports = {
     return new Promise((resolve, reject) => {
       try {
         sql = `select * from combos where isDel=0`;
+        db.query(sql, (err, rows) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(rows);
+        });
+      } catch (e) {
+        resolve(null);
+      }
+    });
+  },
+  //新增景点套餐
+  createCombos: (title,subTitle,days,price,introduce,placeIdListStr,scenicType,classify,keyword) => {
+    return new Promise((resolve, reject) => {
+      try {
+        const number = tool.guidNum(global.uniqueCodePrefix.combosId);
+        const keys = "number,title,subTitle,days,price,introduce,placeIdListStr,scenicType,classify,rate,keyword,combosId,isDel";
+        const values = `${number},'${title}','${subTitle}',${days},${price},'${introduce}','${placeIdListStr}','${scenicType}','${classify}',0,'${keyword}',${number},0`;
+        const sql = `insert into combos (${keys}) values (${values})`;
+        console.log(sql)
+        db.query(sql, (err, rows) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(rows);
+        });
+      } catch (e) {
+        resolve(null);
+      }
+    });
+  },
+  //修改景点套餐
+  updataCombosByNumber: (number,title,subTitle,days,price,introduce,placeIdListStr,scenicType,classify, keyword) => {
+    return new Promise((resolve, reject) => {
+      console.log(number, title,subTitle,days,price,introduce,placeIdListStr,scenicType,classify, keyword)
+      try {
+        sql = `update combos set title="${title}",subTitle="${subTitle}",days=${days},price="${price}",introduce="${introduce}",placeIdListStr="${placeIdListStr}",scenicType="${scenicType}",classify="${classify}",keyword="${keyword}" where number = ${number}`;
         db.query(sql, (err, rows) => {
           if (err) {
             reject(err);

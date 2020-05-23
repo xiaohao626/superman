@@ -96,6 +96,29 @@ module.exports = {
       res.send(e);
     }
   },
+  //新增景点套餐
+createCombos: async (req, res) => {
+  try {
+    let result = [];
+    let { title,subTitle,days,price,introduce,placeIdListStr,scenicType,classify, keyword } = req.query;
+    result = (await services.createCombos(title,subTitle,days,price,introduce,placeIdListStr,scenicType,classify, keyword)) || [];
+    res.send("新增成功");
+  } catch (e) {
+    res.send(e);
+  }
+},
+//修改景点套餐
+updataCombosByNumber: async (req, res) => {
+  try {
+    console.log(1)
+    let {number, title,subTitle,days,price,introduce,placeIdListStr,scenicType,classify, keyword} = req.query;
+    let result = '';
+    result = (await services.updataCombosByNumber(number, title,subTitle,days,price,introduce,placeIdListStr,scenicType,classify, keyword)) || '';
+    res.send(result);
+  } catch (e) {
+    res.send(e);
+  }
+},
   //删除景点套餐
   deleteCombos:async (req,res)=>{
     try{
