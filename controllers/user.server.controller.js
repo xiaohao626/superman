@@ -75,7 +75,11 @@ module.exports = {
         let currUser = userResult[0];
         const { scenic = "" } = currUser || {};
 
-        currUser.scenic = scenic.split(",");
+        let scenicList = [];
+        if (scenic) {
+          scenicList = scenic.split(",");
+        }
+        currUser.scenic = scenicList;
         result.userInfo = currUser;
       }
 
@@ -111,6 +115,73 @@ module.exports = {
 
       if (editResult && editResult.changedRows) {
         result.success = true;
+      }
+
+      res.send(result);
+    } catch (e) {
+      res.send(e);
+    }
+  },
+  // 增加或删除用户偏好景点特色类型
+  editUserScenicByUid: async (req, res) => {
+    try {
+      const { uid, scenicId, operate } = req.query || {};
+      const result = { success: false };
+
+      const userInfo = await services.queryUserDetail(uid);
+
+      if (!userInfo || !userInfo.length) {
+        res.send(result);
+        return;
+      }
+
+      const scenicListStr = userInfo[0].scenic || "";
+
+      let scenicList = [];
+      if (scenicListStr) {
+        scenicList = scenicListStr.split(",");
+      }
+
+      let newScenicList = scenicList.concat();
+
+      const currIndex = newScenicList.indexOf(scenicId);
+      const isExists = currIndex !== -1;
+
+      // 如果是增加标签
+      if (operate === "ADD") {
+        if (isExists) {
+          result.success = true;
+          result.tip = "标签已存在";
+          res.send(result);
+          return;
+        }
+        newScenicList.push(scenicId);
+      }
+
+      // 如果是删除标签
+      if (operate === "DEL") {
+        if (!isExists) {
+          result.success = true;
+          result.tip = "标签不存在";
+          res.send(result);
+          return;
+        }
+
+        newScenicList.splice(currIndex, 1);
+      }
+
+      const newScenicListStr = newScenicList.join(",") || "";
+      const params = { uid, scenic: newScenicListStr };
+      const editResult = await services.editUserScenicByUid(params);
+
+      if (editResult && editResult.changedRows) {
+        result.success = true;
+        if (operate === "DEL") {
+          result.tip = "删除成功";
+        }
+        if (operate === "ADD") {
+          result.tip = "添加成功";
+        }
       }
 
       res.send(result);

@@ -112,4 +112,27 @@ module.exports = {
       }
     });
   },
+  /**
+   * 通过用户Id修改用户特色偏好列表
+   * @param {Object} params 参数对象
+   * @property {String} params.uid 用户Id
+   * @property {String} params.scenic 用户Id
+   */
+  editUserScenicByUid: (params = {}) => {
+    return new Promise((resolve, reject) => {
+      try {
+        const { uid, scenic } = params || {};
+        const sql = `update user set scenic="${scenic}" where uid = ${uid}`;
+
+        db.query(sql, (err, rows) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(rows);
+        });
+      } catch (e) {
+        resolve(null);
+      }
+    });
+  },
 };

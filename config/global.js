@@ -7,6 +7,7 @@ const uniqueCodePrefix = {
   scenicId: 104, // 景点/套餐特色
   classifyId: 105, // 景点/套餐分类
   commentId: 106, // 评价
+  browseRecords: 107, // 浏览记录
 };
 
 module.exports = {
