@@ -7,6 +7,8 @@ const scenicType = require("./scenicType");
 const order = require("./order");
 const feature = require("./feature");
 const scenic = require("./scenic");
+const personalized = require("./personalized");
+const browseRecords = require("./browseRecords");
 
 module.exports = {
   ...classify,
@@ -18,4 +20,6 @@ module.exports = {
   ...order,
   ...feature,
   ...scenic,
+  ...personalized,
+  ...browseRecords,
 };
