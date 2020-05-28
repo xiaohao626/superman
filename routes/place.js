@@ -7,7 +7,7 @@ router.get("/getAllPlace", placeController.queryAllPlace);
 
 router.get("/queryPlaceDetailById", placeController.queryPlaceDetailById);
 //新增景点
-router.get("/createPlace", placeController.createPlace);
+router.post("/createPlace", placeController.createPlace);
 //修改景点
 router.get("/updataPlaceById", placeController.updataPlaceById);
 //删除景点

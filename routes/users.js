@@ -7,6 +7,7 @@ router.get("/getLoginInfo", userController.getUserlist);
 router.get("/login", userController.userLogin);
 router.get("/getUserList", userController.getUserList);
 router.get("/deleteUser", userController.deleteUser);
+router.get("/createUser", userController.createUser);
 
 // 通过用户Id查询用户信息
 router.get("/queryUserInfoByUid", userController.queryUserInfoByUid);

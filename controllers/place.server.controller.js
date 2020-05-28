@@ -99,7 +99,7 @@ module.exports = {
         classify,
         address,days
       } = req.query;
-      result = (await services.createPlace(title,
+      result = (await services.createPlace(title,img,
         introduce,
         price,
         feature,

@@ -1,4 +1,6 @@
 const db = require("../config/db");
+const global = require("../config/global");
+const tool = require("../tool");
 
 module.exports = {
   // 验证登录
@@ -41,7 +43,7 @@ module.exports = {
   queryUserList: () => {
     return new Promise((resolve, reject) => {
       try {
-        const sql = `select * from user where isdelete=0`;
+        const sql = `select * from user where isDel=0`;
         db.query(sql, (err, rows) => {
           if (err) {
             reject(err);
@@ -53,6 +55,26 @@ module.exports = {
       }
     });
   },
+  //注册
+  createUser: (name,nickName,age,pwd,sex,phone,scenic,hobby) => {
+    return new Promise((resolve, reject) => {
+      try {
+        const uid = tool.guidNum(global.uniqueCodePrefix.uid);
+        const keys = "uid,name,nickName,age,pwd,sex,phone,scenic,hobby,isDel";
+        const values = `${uid},'${name}','${nickName}',${age},'${pwd}','${sex}','${phone}','${scenic}','${hobby}',0`;
+        const sql = `insert into user (${keys}) values (${values})`;
+        db.query(sql, (err, rows) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(rows);
+        });
+      } catch (e) {
+        resolve(null);
+      }
+    });
+  },
+  //删除用户
   delUser: (params = {}) => {
     return new Promise((resolve, reject) => {
       try {
