@@ -112,15 +112,6 @@ module.exports = {
         address,
         days,
       } = req.query;
-<<<<<<< HEAD
-      result = (await services.createPlace(title,img,
-        introduce,
-        price,
-        feature,
-        scenicType,
-        classify,
-        address,days)) || [];
-=======
       result =
         (await services.createPlace(
           title,
@@ -132,7 +123,6 @@ module.exports = {
           address,
           days
         )) || [];
->>>>>>> 11dfc56272e5aca8a3b7e905e8ecdfc6a75a5b97
       res.send("新增成功");
     } catch (e) {
       res.send(e);

@@ -4,9 +4,11 @@ const services = require("../services");
 module.exports = {
   getUserlist: function (req, res, next) {
     try {
-      const userList = [{
-        name: "zhang"
-      }];
+      const userList = [
+        {
+          name: "zhang",
+        },
+      ];
       return res.send(userList);
     } catch (e) {
       return res.send(e);
@@ -16,29 +18,18 @@ module.exports = {
   userLogin: async function (req, res, next) {
     try {
       let isLegal = false;
-      let {
-        userName,
-        userPassword
-      } = req.query;
+      let { userName, userPassword } = req.query;
       let result = await user.verifyUserLogin({
-        userName
+        userName,
       });
 
       if (result && Array.isArray(result) && result.length) {
-        let {
-          pwd
-        } = result[0];
+        let { pwd } = result[0];
         if (pwd === userPassword) {
           isLegal = true;
         }
       }
-      let {
-        name,
-        age,
-        sex,
-        uid,
-        phone
-      } = result[0];
+      let { name, age, sex, uid, phone } = result[0];
       let data = {
         success: true,
         isLegal,
@@ -69,26 +60,19 @@ module.exports = {
   createUser: async (req, res) => {
     try {
       let result = [];
-      let {
-        name,
-        nickName,
-        age,
-        pwd,
-        sex,
-        phone,
-        scenic,
-        hobby
-      } = req.query;
-      
-      result = (await services.createUser(
-        name,
-        nickName,
-        age,
-        pwd,
-        sex,
-        phone,
-        scenic,
-        hobby )) || [];
+      let { name, nickName, age, pwd, sex, phone, scenic, hobby } = req.query;
+
+      result =
+        (await services.createUser(
+          name,
+          nickName,
+          age,
+          pwd,
+          sex,
+          phone,
+          scenic,
+          hobby
+        )) || [];
       res.send("新增成功");
     } catch (e) {
       res.send(e);
@@ -97,13 +81,12 @@ module.exports = {
   //删除用户
   deleteUser: async (req, res) => {
     try {
-      let {
-        id
-      } = req.query;
+      let { id } = req.query;
       let result = "删除成功";
-      result = (await user.delUser({
-        id
-      })) || "";
+      result =
+        (await user.delUser({
+          id,
+        })) || "";
       res.send(result);
     } catch (e) {
       res.send(e);
@@ -113,11 +96,9 @@ module.exports = {
   queryUserInfoByUid: async (req, res) => {
     try {
       let result = {};
-      let {
-        uid
-      } = req.query || {};
+      let { uid } = req.query || {};
       const params = {
-        uid
+        uid,
       };
 
       const userResult = (await user.queryUserInfoByUid(params)) || [];
@@ -125,9 +106,7 @@ module.exports = {
       // 组装用户信息
       if (userResult && userResult.length) {
         let currUser = userResult[0];
-        const {
-          scenic = ""
-        } = currUser || {};
+        const { scenic = "" } = currUser || {};
 
         let scenicList = [];
         if (scenic) {
@@ -162,15 +141,7 @@ module.exports = {
   // 根据用户Id修改用户信息
   editUserInfoByUid: async (req, res) => {
     try {
-      const {
-        uid,
-        name,
-        nickName,
-        pwd,
-        age,
-        sex,
-        phone
-      } = req.query || {};
+      const { uid, name, nickName, pwd, age, sex, phone } = req.query || {};
       const params = {
         uid,
         name,
@@ -178,10 +149,10 @@ module.exports = {
         pwd,
         age,
         sex,
-        phone
+        phone,
       };
       const result = {
-        success: false
+        success: false,
       };
       const editResult = await services.editUserInfoByUid(params);
 
@@ -194,9 +165,6 @@ module.exports = {
       res.send(e);
     }
   },
-<<<<<<< HEAD
-};
-=======
   // 增加或删除用户偏好景点特色类型
   editUserScenicByUid: async (req, res) => {
     try {
@@ -265,4 +233,3 @@ module.exports = {
     }
   },
 };
->>>>>>> 11dfc56272e5aca8a3b7e905e8ecdfc6a75a5b97
