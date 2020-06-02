@@ -15,6 +15,7 @@ var orderRouter = require("./routes/order");
 var featureRouter = require("./routes/feature");
 var scenicRouter = require("./routes/scenic");
 var personalizedRouter = require("./routes/personalized");
+var imageRouter = require("./routes/image");
 
 var app = express();
 
@@ -26,6 +27,10 @@ app.all("*", function (req, res, next) {
   // res.header("Content-Type", "application/json");
   next();
 });
+
+// 以下设置可以使post请求正常获取
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // 路由 TODO: 优化
 app.use("/", indexRouter);
@@ -39,9 +44,7 @@ app.use("/scenic", scenicRouter);
 app.use("/userList", usersRouter);
 app.use("/delUser", usersRouter);
 app.use("/personalized", personalizedRouter);
-
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use("/image", imageRouter);
 
 // view engine setup
 // app.set("views", path.join(__dirname, "views"));
@@ -57,8 +60,8 @@ app.use(
 );
 
 app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
