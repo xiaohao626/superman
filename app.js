@@ -23,7 +23,8 @@ app.all("*", function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Content-Type");
   res.header("Access-Control-Allow-Methods", "*");
-  res.header("Content-Type", "application/json;charset=utf-8");
+  // 注释掉下面代码可以解决外部访问静态资源
+  // res.header("Content-Type", "application/json;charset=utf-8");
   // res.header("Content-Type", "application/json");
   next();
 });
@@ -63,7 +64,9 @@ app.use(logger("dev"));
 // app.use(express.json());
 // app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+// app.use(express.static(path.join(__dirname, "public")));
+// app.use("/public", express.static("./public")); //将文件设置成静态
+app.use("/upload", express.static("public"));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

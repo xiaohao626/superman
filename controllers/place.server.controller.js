@@ -7,8 +7,7 @@ module.exports = {
   queryAllPlace: async (req, res) => {
     try {
       let result = [];
-      let { query = {} } = req;
-      let { scenicId = "", featureId = "" } = query || {};
+      let { scenicId = "", featureId = "" } = req.query || {};
       const params = {
         scenicId,
         featureId,
