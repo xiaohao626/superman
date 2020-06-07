@@ -141,7 +141,8 @@ module.exports = {
   // 根据用户Id修改用户信息
   editUserInfoByUid: async (req, res) => {
     try {
-      const { uid, name, nickName, pwd, age, sex, phone } = req.query || {};
+      const { uid, name, nickName, pwd, age, sex, phone, avatar } =
+        req.query || {};
       const params = {
         uid,
         name,
@@ -150,6 +151,7 @@ module.exports = {
         age,
         sex,
         phone,
+        avatar,
       };
       const result = {
         success: false,

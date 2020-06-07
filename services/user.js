@@ -56,7 +56,7 @@ module.exports = {
     });
   },
   //注册
-  createUser: (name,nickName,age,pwd,sex,phone,scenic,hobby) => {
+  createUser: (name, nickName, age, pwd, sex, phone, scenic, hobby) => {
     return new Promise((resolve, reject) => {
       try {
         const uid = tool.guidNum(global.uniqueCodePrefix.uid);
@@ -120,8 +120,9 @@ module.exports = {
   editUserInfoByUid: (params = {}) => {
     return new Promise((resolve, reject) => {
       try {
-        const { uid, name, nickName, pwd, age, sex, phone } = params || {};
-        const sql = `update user set name="${name}",nickName="${nickName}",pwd=${pwd},age=${age},sex=${sex},phone=${phone} where uid = ${uid}`;
+        const { uid, name, nickName, pwd, age, sex, phone, avatar } =
+          params || {};
+        const sql = `update user set name="${name}",nickName="${nickName}",pwd=${pwd},age=${age},sex=${sex},phone=${phone},avatar='${avatar}' where uid = ${uid}`;
 
         db.query(sql, (err, rows) => {
           if (err) {

@@ -9,6 +9,7 @@ const feature = require("./feature");
 const scenic = require("./scenic");
 const personalized = require("./personalized");
 const browseRecords = require("./browseRecords");
+const images = require("./images");
 
 module.exports = {
   ...classify,
@@ -22,4 +23,5 @@ module.exports = {
   ...scenic,
   ...personalized,
   ...browseRecords,
+  ...images,
 };

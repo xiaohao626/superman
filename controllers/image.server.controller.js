@@ -23,6 +23,8 @@ module.exports = {
         // console.log(`oldPath: ${oldPath}`);
         // 上传的图片名
         let imgName = files.file.name;
+        // TODO:
+        console.log("filess:", fields);
         // console.log(`imgName: ${imgName}`);
         // 用activity_替换图片名
         let newImgName = imgName.replace(/[^.]+/, `image_${date}`);
@@ -31,9 +33,24 @@ module.exports = {
         let newPath = path.join(path.dirname(oldPath), newImgName);
         // console.log(`newPath: ${newPath}`)
         // 图片文件重命名路径
-        fs.rename(oldPath, newPath, (err) => {
+        fs.rename(oldPath, newPath, async (err) => {
           if (err) next(err);
-          res.send({ imgName: newImgName });
+          // 将上传的图片路径存储到数据库中
+          const fullPath = `http://localhost:3000/upload/images/${newImgName}`;
+          const { imageType, relevanceId } = fields || {};
+          if (+relevanceId) {
+            const saveParams = { url: fullPath, type: imageType, relevanceId };
+            const saveResult = await services.createImageRecord(saveParams);
+            // TODO:
+            console.log("saveResult:", saveResult);
+          }
+
+          const uploadResult = {
+            imgName: newImgName,
+            url: newPath,
+            fullPath,
+          };
+          res.send(uploadResult);
         });
       });
     } catch (e) {
