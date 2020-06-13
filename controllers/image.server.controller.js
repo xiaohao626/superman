@@ -5,7 +5,7 @@ const fs = require("fs");
 
 module.exports = {
   // 上传图片
-  uploadImage: async (req, res) => {
+  uploadImage: async (req, res, next) => {
     try {
       let form = new formidable.IncomingForm();
       // 设置编码
@@ -23,8 +23,6 @@ module.exports = {
         // console.log(`oldPath: ${oldPath}`);
         // 上传的图片名
         let imgName = files.file.name;
-        // TODO:
-        console.log("filess:", fields);
         // console.log(`imgName: ${imgName}`);
         // 用activity_替换图片名
         let newImgName = imgName.replace(/[^.]+/, `image_${date}`);
@@ -38,11 +36,11 @@ module.exports = {
           // 将上传的图片路径存储到数据库中
           const fullPath = `http://localhost:3000/upload/images/${newImgName}`;
           const { imageType, relevanceId } = fields || {};
+
+          // 将图片链接存到图片表（image）中
           if (+relevanceId) {
             const saveParams = { url: fullPath, type: imageType, relevanceId };
-            const saveResult = await services.createImageRecord(saveParams);
-            // TODO:
-            console.log("saveResult:", saveResult);
+            await services.createImageRecord(saveParams);
           }
 
           const uploadResult = {
@@ -56,5 +54,10 @@ module.exports = {
     } catch (e) {
       res.send(e);
     }
+  },
+  // 根据关联类型及关联Id查询图片记录 (type, relevanceId)
+  queryImageByTypeAndRelevaceId: (req, res) => {
+    try {
+    } catch (e) {}
   },
 };

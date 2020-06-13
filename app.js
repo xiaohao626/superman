@@ -25,7 +25,7 @@ app.all("*", function (req, res, next) {
   res.header("Access-Control-Allow-Methods", "*");
   // 注释掉下面代码可以解决外部访问静态资源
   // res.header("Content-Type", "application/json;charset=utf-8");
-  // res.header("Content-Type", "application/json");
+  res.header("Content-Type", "application/json");
   next();
 });
 

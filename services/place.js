@@ -1,6 +1,6 @@
 const db = require("../config/db");
-const global = require("../config/global");
-const tool = require("../tool");
+// const global = require("../config/global");
+// const tool = require("../tool");
 
 module.exports = {
   // 通过指定条件查询景点列表
@@ -51,21 +51,22 @@ module.exports = {
   },
   //新增景点套餐
   createPlace: (
+    placeId,
     title,
     introduce,
     price,
     feature,
     scenicType,
+    img,
     classify,
     address,
     days
   ) => {
     return new Promise((resolve, reject) => {
       try {
-        const placeId = tool.guidNum(global.uniqueCodePrefix.placeId);
         const keys =
-          "placeId,title,introduce,price,scenicType,scenicId,classify,address,turnover,number,feature,grade,days,isDel";
-        const values = `${placeId},'${title}','${introduce}',${price},'${scenicType}','${scenicType}','${classify}','${address}',0,'${placeId}','${feature}',0,${days},0`;
+          "placeId,title,introduce,price,scenicType,scenicId,img,classify,address,turnover,number,feature,grade,days,isDel";
+        const values = `${placeId},'${title}','${introduce}',${price},'${scenicType}','${scenicType}','${img}','${classify}','${address}',0,'${placeId}','${feature}',0,${days},0`;
         const sql = `insert into placelist (${keys}) values (${values})`;
 
         db.query(sql, (err, rows) => {

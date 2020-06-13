@@ -40,10 +40,23 @@ module.exports = {
         detail.combosList = combosList;
       }
 
+      // 组装景点图片列表
+      if (detail.placeId) {
+        const type = globalConfig.uniqueCodePrefix.placeId;
+        const queryImagesResult =
+          (await services.queryImageByTypeAndRelevaceId(
+            type,
+            detail.placeId
+          )) || [];
+
+        detail.images = queryImagesResult;
+      }
+
       res.send(detail);
 
       // 生成浏览记录
       if (detail.scenicId) {
+        // split方法将字符串转换成数组 001,002 => [001, 002]
         const scenicIdList = detail.scenicId.split(",");
 
         const createRecordPromise = scenicIdList.map((scenicId) => {
@@ -58,7 +71,7 @@ module.exports = {
         Promise.all(createRecordPromise);
       }
 
-      // 生成浏览记录
+      // 生成浏览记录方法
       async function createBrowseRecord(params = {}) {
         const { browse_type, browse_type_id, browse_uid } = params || {};
 
@@ -110,19 +123,44 @@ module.exports = {
         classify,
         address,
         days,
-      } = req.query;
+        fileList,
+      } = req.body;
+
+      let imgList = Array.isArray(fileList) ? fileList : [fileList];
+      imgList = imgList.filter((img) => !!img);
+      // 生成唯一景点编号
+      const placeId = tool.guidNum(globalConfig.uniqueCodePrefix.placeId);
+      // 景点封面图（默认取上传的第一张图片）
+      const [img = ""] = imgList || [];
+
       result =
         (await services.createPlace(
+          placeId,
           title,
           introduce,
           price,
           feature,
           scenicType,
+          img,
           classify,
           address,
-          days
+          days,
+          imgList
         )) || [];
-      res.send("新增成功");
+
+      // 添加失败
+      if (!result || !result.affectedRows) {
+        res.send({ success: false });
+        return;
+      }
+
+      services.generateMoreImgRecord(
+        imgList,
+        globalConfig.uniqueCodePrefix.placeId,
+        placeId
+      );
+
+      res.send({ success: true });
     } catch (e) {
       res.send(e);
     }
