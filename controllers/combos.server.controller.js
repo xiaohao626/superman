@@ -105,6 +105,7 @@ module.exports = {
       let {
         title,
         subTitle,
+        img,
         days,
         price,
         introduce,
@@ -117,6 +118,7 @@ module.exports = {
         (await services.createCombos(
           title,
           subTitle,
+          img,
           days,
           price,
           introduce,
@@ -151,6 +153,7 @@ module.exports = {
         (await services.updataCombosByNumber(
           number,
           title,
+          img,
           subTitle,
           days,
           price,
